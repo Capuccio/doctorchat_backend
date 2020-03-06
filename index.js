@@ -17,7 +17,9 @@ app.use(function(req, res, next) {
 });
 
 // MongoDB
-const MONGO_URI = "mongodb://localhost/doctorchat";
+const MONGO_URI =
+  "mongodb+srv://Capuccio:ec65QRkdEMh6ooSV@doctorchat-hrm4x.mongodb.net/doctorchat?retryWrites=true&w=majority";
+
 mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,
