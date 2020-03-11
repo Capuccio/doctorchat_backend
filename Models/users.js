@@ -9,8 +9,8 @@ const UserSchema = new Schema({
   genre: String,
   tokenNotifications: String,
   profilePicture: String,
-  deleteHashPicture: String,
   level: Number,
+  status: Number,
   doctor: String
 });
 
