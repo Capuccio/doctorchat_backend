@@ -3,9 +3,11 @@ const app = express();
 const mongoose = require("mongoose");
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
-require("./sockets")(io);
+const { Expo } = require("expo-server-sdk");
+require("./sockets")(io, Expo);
+require("dotenv").config();
 
-app.use(express.json({ extended: true }));
+app.use(express.json({ limit: "1000mb", extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -17,9 +19,8 @@ app.use(function(req, res, next) {
 });
 
 // MongoDB
-const MONGO_URI = "mongodb://localhost/doctorchat";
 mongoose
-  .connect(MONGO_URI, {
+  .connect(process.env.MONGO_CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -28,12 +29,10 @@ mongoose
     console.log(`Couldn't connect to MongoDB database: ${error}`)
   );
 
-app.set("port", process.env.PORT || 5000);
-
 // Routes
 app.use(require("./Routes/users"));
 app.use(require("./Routes/chat"));
 
-http.listen(app.get("port"), () => {
-  console.log(`Server up in port ${app.get("port")}`);
+http.listen(process.env.PORT, () => {
+  console.log(`Server up in port ${process.env.PORT}`);
 });
