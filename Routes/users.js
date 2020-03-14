@@ -34,14 +34,17 @@ route.get("/userdata/:idUser", async (req, res) => {
     if (error) {
       console.log(`Error searching userData ID ${idUser}. Error: ${error}`);
 
-      res.json({
-        error: true,
-        title: "Error User",
-        msg: "Se produjo un error al intentar traer los datos de este usuario"
-      });
+      res
+        .status(400)
+        .json({
+          error: true,
+          title: "Error User",
+          msg: "Se produjo un error al intentar traer los datos"
+        })
+        .end();
     }
 
-    res.status(400).json({
+    res.status(200).json({
       error: false,
       msg: userData
     });
